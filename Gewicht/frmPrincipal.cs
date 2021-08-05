@@ -29,7 +29,7 @@ namespace BalanzaW
         public static string fecha_reg = "";
         public static string hora_reg = "";
         public static int anulado = 0;
-        public static Double peso = 0;
+        public static string peso = "0.0";
 
 
 
@@ -48,10 +48,11 @@ namespace BalanzaW
         {
 
             Conexion conexion = new Conexion();
-            string sql = string.Format("INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO,CONSEC, COD_IBES, REF_IBES,CAT_IBES,ID_BASCULA,BASCULA,ID_PROCESO,PROCESO,PRESENTACION,FECHA_REG,HORA_REG,PESO, DOC_REF,NOTAS, USER_REG, ANULADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS),'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}');", consec,cod_ibes,ref_ibes,cat_ibes,id_bascula,bascula,id_proceso,proceso,presentacion,fecha_reg, hora_reg,(peso/10),doc_ref,notas,user_reg,anulado);
+            string sql = string.Format("INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO,CONSEC, COD_IBES, REF_IBES,CAT_IBES,ID_BASCULA,BASCULA,ID_PROCESO,PROCESO,PRESENTACION,FECHA_REG,HORA_REG,PESO, DOC_REF,NOTAS, USER_REG, ANULADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS),'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}');", consec,cod_ibes,ref_ibes,cat_ibes,id_bascula,bascula,id_proceso,proceso,presentacion,fecha_reg, hora_reg,peso,doc_ref,notas,user_reg,anulado);
+            MessageBox.Show(sql);
 
 
-            
+
             try
             {
 
@@ -59,9 +60,8 @@ namespace BalanzaW
                 conexion._comando = new DB2Command(sql, conexion._conexion);
                 conexion._comando.ExecuteReader();
                 conexion.CerrarConexion();
-                // int Cant = int.Parse(Items);
-                // string Seccion = sec;
-                //CargaDatos(DgvDat, Cant, Seccion);
+                int Cant = int.Parse(Items);
+                CargaDatos(DgvDat, Cant);
                 MessageBox.Show("Datos Capturados.", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
             }
@@ -342,27 +342,31 @@ namespace BalanzaW
           
         private void Form1_Load(object sender, EventArgs e)
         {
-            //DgvDat = DgvDatos;
+            DgvDat = DgvDatos;
             Buscapuerto();
             getCbBascula();
             getCbProcess();
             getcbCat();
             getcbPres();
-            lblUsers.Text = Dns.GetHostName().ToUpper();         
+            lblUsers.Text = Dns.GetHostName().ToUpper();
+
+            CargaDatos(DgvDatos, 5);
 
         }
 
         
 
-            public static void CargaDatos(DataGridView dgv,int Items, string Seccion)
+            public static void CargaDatos(DataGridView dgv,int Items)
         {
+
+            string Users= Dns.GetHostName().ToUpper();
             try
             {
                 Conexion conexion = new Conexion();
                 conexion.AbrirConexion();
                 DB2DataAdapter da;
                 DataTable dt = new DataTable();
-                string sql = string.Format("SELECT ID ,FECHA,HORA,TURNO,PESO,SECCION,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE SECCION='{0}'  ORDER BY ID DESC LIMIT {1};", Seccion, Items);
+                string sql = string.Format("SELECT ID_REGISTRO AS ID ,CONSEC,COD_IBES,BASCULA, PROCESO,PRESENTACION,FECHA_REG AS FECHA,HORA_REG AS HORA,PESO,DOC_REF,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE USER_REG='{0}'  ORDER BY ID DESC LIMIT {1};", Users, Items);
                 conexion._comando = new DB2Command(sql, conexion._conexion);
                 
                 da = new DB2DataAdapter(conexion._comando);
@@ -371,7 +375,7 @@ namespace BalanzaW
                 dgv.DataSource = dt;               
 
 
-                string[] titulos = new string[] { "No. REG", "FECHA", "HORA", "TURNO", "PESO", "SECCION", "OPERADOR" };
+                string[] titulos = new string[] { "No. REG", "CONSEC", "COD IBES", "BASCULA", "PROCESO", "PRESENTACION", "FECHA", "HORA", "PESO", "DOC_REF",  "USUARIO" };
                 dgv.Columns[0].HeaderText = titulos[0];
                 dgv.Columns[1].HeaderText = titulos[1];
                 dgv.Columns[2].HeaderText = titulos[2];
@@ -379,7 +383,11 @@ namespace BalanzaW
                 dgv.Columns[4].HeaderText = titulos[4];
                 dgv.Columns[5].HeaderText = titulos[5];
                 dgv.Columns[6].HeaderText = titulos[6];
-                dgv.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dgv.Columns[7].HeaderText = titulos[7];
+                dgv.Columns[8].HeaderText = titulos[8];
+                dgv.Columns[9].HeaderText = titulos[9];
+                dgv.Columns[10].HeaderText = titulos[10];
+                //dgv.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dgv.Columns[0].ReadOnly = true;
                 dgv.Columns[1].ReadOnly = true;
                 dgv.Columns[2].ReadOnly = true;
@@ -387,6 +395,10 @@ namespace BalanzaW
                 dgv.Columns[4].ReadOnly = true;
                 dgv.Columns[5].ReadOnly = true;
                 dgv.Columns[6].ReadOnly = true;
+                dgv.Columns[7].ReadOnly = true;
+                dgv.Columns[8].ReadOnly = true;
+                dgv.Columns[9].ReadOnly = true;
+                dgv.Columns[10].ReadOnly = true;
 
                 conexion.CerrarConexion();
                 da.Dispose();
@@ -529,14 +541,14 @@ namespace BalanzaW
             hora_reg = labelhora.Text;
             user_reg = lblUsers.Text;
 
-            peso = Double.Parse(lbl_peso.Text);
+            peso = lbl_peso.Text;
 
-            MessageBox.Show(peso.ToString());
+            MessageBox.Show(peso);
 
 
 
            Items = CmbItems.Text;
-            //DgvDat = DgvDatos;            
+            DgvDat = DgvDatos;            
             frmModal Modal = new frmModal();
             Modal.ShowDialog(this);
 
@@ -559,15 +571,18 @@ namespace BalanzaW
             
             DB2DataReader verificar;
             
-            string select = string.Format("SELECT * FROM PROD.GEW_BASCULA_DATOS WHERE ID= '{0}'", ValorId);
+            string select = string.Format("SELECT * FROM PROD.GEW_BASCULA_DATOS WHERE ID_REGISTRO= '{0}'", ValorId);
+
+            MessageBox.Show(select);
             conexion._comando = new DB2Command(select, conexion._conexion);
             conexion.AbrirConexion();
             verificar = conexion._comando.ExecuteReader();
             if (verificar.Read())
             {
+                MessageBox.Show("REGITRO EXISTE");
 
                 //TxtIdR.Text = verificar.GetString(0);
-                
+
             }
             else
             {
@@ -590,8 +605,7 @@ namespace BalanzaW
         private void CmbItems_SelectedIndexChanged(object sender, EventArgs e)
         {
             int Cant = int.Parse(CmbItems.Text);
-            //string Seccion = txtSecc.Text;
-            //CargaDatos(DgvDatos, Cant, Seccion);
+            CargaDatos(DgvDatos, Cant);
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
@@ -679,8 +693,7 @@ namespace BalanzaW
                // TextOperR.Text = "";
                 conexion.CerrarConexion();
                 int Cant = int.Parse(CmbItems.Text);
-               // string Seccion = txtSecc.Text;
-                //CargaDatos(DgvDatos, Cant, Seccion);                
+                CargaDatos(DgvDatos, Cant);                
             }
         }
 
