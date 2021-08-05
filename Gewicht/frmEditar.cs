@@ -27,5 +27,10 @@ namespace BalanzaW
         {
 
         }
+
+        private void CerrarLogin_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -45,6 +45,7 @@
             this.CerrarLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.CerrarLogin.TabIndex = 14;
             this.CerrarLogin.TabStop = false;
+            this.CerrarLogin.Click += new System.EventHandler(this.CerrarLogin_Click);
             // 
             // MinimizarLogin
             // 
