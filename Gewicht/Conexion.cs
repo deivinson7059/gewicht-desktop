@@ -14,7 +14,7 @@ namespace BalanzaW
         public DB2Command _comando;
         public Conexion()
         {
-            _conexion = new DB2Connection("Server=192.168.40.15:50002;Database=MAINDB;UID=sistemas;PWD=willard1505");
+            _conexion = new DB2Connection("Server=192.168.40.4:50000;Database=WLRDB091;UID=sistemas;PWD=willard1505");
 
         }
 

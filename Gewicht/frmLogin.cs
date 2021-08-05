@@ -165,10 +165,10 @@ namespace BalanzaW
                     TxtUsuario.Text = "";                    
                     this.Hide();
                     
-                    Principal.txtCCoper.Text = consultar.GetString(1);
-                    Principal.txtOper.Text = consultar.GetString(2);                     
-                    Principal.txtPerfil.Text = consultar.GetString(3);
-                    Principal.txtSecc.Text = consultar.GetString(4);
+                    //Principal.txtCCoper.Text = consultar.GetString(1);
+                    //Principal.txtUsers.Text = consultar.GetString(2);                     
+                    //Principal.txtPerfil.Text = consultar.GetString(3);
+                    //Principal.txtSecc.Text = consultar.GetString(4);
 
                     Principal.CmbItems.Text = "50";
                     int Cant = int.Parse(Principal.CmbItems.Text);
