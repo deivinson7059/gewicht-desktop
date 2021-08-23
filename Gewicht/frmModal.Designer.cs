@@ -43,7 +43,8 @@
             this.lbl_total.Name = "lbl_total";
             this.lbl_total.Size = new System.Drawing.Size(85, 93);
             this.lbl_total.TabIndex = 0;
-            this.lbl_total.Text = "5";
+            this.lbl_total.Text = "3";
+            this.lbl_total.Click += new System.EventHandler(this.lbl_total_Click);
             // 
             // label2
             // 

@@ -8,12 +8,13 @@ using System.Net;
 
 namespace BalanzaW
 {
-    public partial class frmPrincipal : Form
+    public partial class FrmPrincipal : Form
     {
         readonly Conexion conexion = new Conexion();
 
         public static int id_registro = 0;
         public static bool nuevo = true;
+        public static bool basculaConect = false;
         public static int consec = 0;
         public static string cod_ibes = "";
         public static string ref_ibes = "";
@@ -27,9 +28,12 @@ namespace BalanzaW
         public static string notas = "";
         public static string user_reg = "";
         public static string fecha_reg = "";
+        
         public static string hora_reg = "";
         public static int anulado = 0;
-        public static string peso = "0.0";
+        public static Double peso = 0.0;
+
+        public static string valtest = "";
 
 
 
@@ -38,7 +42,7 @@ namespace BalanzaW
 
 
 
-        public frmPrincipal()
+        public FrmPrincipal()
         {
             InitializeComponent();
 
@@ -47,10 +51,23 @@ namespace BalanzaW
         public static void SaveRegistros()
         {
 
-            Conexion conexion = new Conexion();
-            string sql = string.Format("INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO,CONSEC, COD_IBES, REF_IBES,CAT_IBES,ID_BASCULA,BASCULA,ID_PROCESO,PROCESO,PRESENTACION,FECHA_REG,HORA_REG,PESO, DOC_REF,NOTAS, USER_REG, ANULADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS),'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}');", consec,cod_ibes,ref_ibes,cat_ibes,id_bascula,bascula,id_proceso,proceso,presentacion,fecha_reg, hora_reg,peso,doc_ref,notas,user_reg,anulado);
-            MessageBox.Show(sql);
+            string nValor = peso.ToString();
+            nValor = nValor.Replace(",", ".");
 
+
+
+            Conexion conexion = new Conexion();
+          
+
+            string sql;
+
+            if (nuevo == true) {
+                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS), 1, '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0);";
+            }
+            else 
+            {              
+                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO) VALUES ('" + id_registro + "',(SELECT COALESCE(MAX(CONSEC),0)+1 AS CONSEC FROM PROD.GEW_BASCULA_DATOS WHERE ID_REGISTRO='" + id_registro + "' ), '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0);";
+            }
 
 
             try
@@ -67,8 +84,12 @@ namespace BalanzaW
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al Guardar los datos.. Error: " + ex.ToString(), "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.Write(ex);
+                CargaDatos(DgvDat, 100);
+                MessageBox.Show("Datos Capturados.", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+               // MessageBox.Show("Error al Guardar los datos.. Error: " + ex.ToString(), "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+           
         }
 
 
@@ -80,7 +101,7 @@ namespace BalanzaW
             string sred = sp.ReadExisting();
 
             MessageBox.Show(sred);
-            lbl_peso.Text = sred;
+            txtPeso.Text = sred;
 
 
             /* char dato_reciv = (char)serialPort1.ReadChar();
@@ -141,12 +162,13 @@ namespace BalanzaW
             }
         }
 
-        private void getRandoPeso() {
+        private void GetRandoPeso() {
             Random ran = new Random();
-            var valor = ran.Next(10, 10000) / 10.0;
+            Double valor = ran.Next(75, 99999) / 10.00;
+            peso = valor;
 
             String nValor = valor.ToString();
-            lbl_peso.Text = nValor.Replace(",", ".");
+            txtPeso.Text = nValor.Replace(",", ".");
 
         }
 
@@ -186,7 +208,7 @@ namespace BalanzaW
             return collection;
         }
 
-        private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbCat.Text != "")
             {
@@ -202,17 +224,17 @@ namespace BalanzaW
                 }
                 cmbRefIbes.Text = "";
 
-                getCbRef(txtcateg);
+                GetCbRef(txtcateg);
 
                 cmbRefIbes.Focus();
             }
             else
             {
-                getCbRef("");
+                GetCbRef("");
             }
         }
 
-        private void getCbBascula()
+        private void GetCbBascula()
         {
             string sql = "SELECT ID_BASCULA ID, DES_BASCULA TEXT FROM PROD.GEW_BASCULA WHERE ACTIVO='SI';";
 
@@ -237,7 +259,7 @@ namespace BalanzaW
             }
         }
 
-        private void getcbPres()
+        private void GetcbPres()
         {
             string sql = "SELECT TRIM(ID) ID, TRIM(PRESENTACION) TEXT FROM PROD.GEW_TYPE_PRE WHERE ACTIVO='SI';";
 
@@ -264,7 +286,7 @@ namespace BalanzaW
         }
 
 
-        private void getCbRef(string cat)
+        private void GetCbRef(string cat)
         {
             try
             {
@@ -290,7 +312,7 @@ namespace BalanzaW
 
         }
 
-        private void getcbCat()
+        private void GetcbCat()
         {
             try
             {
@@ -315,7 +337,7 @@ namespace BalanzaW
 
         }
 
-        private void getCbProcess()
+        private void GetCbProcess()
         {
             try
             {
@@ -339,24 +361,29 @@ namespace BalanzaW
             }
 
         }
-          
+
+        
+
         private void Form1_Load(object sender, EventArgs e)
         {
             DgvDat = DgvDatos;
             Buscapuerto();
-            getCbBascula();
-            getCbProcess();
-            getcbCat();
-            getcbPres();
+            GetCbBascula();
+            GetCbProcess();
+            GetcbCat();
+            GetcbPres();
             lblUsers.Text = Dns.GetHostName().ToUpper();
+            CmbItems.Text = "100";
+            CargaDatos(DgvDat, 100);
 
-            CargaDatos(DgvDatos, 5);
 
         }
+        public static void CargaDatosR(int Items)
+        {
+            CargaDatos(DgvDat, Items);
 
-        
-
-            public static void CargaDatos(DataGridView dgv,int Items)
+        }
+        public static void CargaDatos(DataGridView dgv,int Items)
         {
 
             string Users= Dns.GetHostName().ToUpper();
@@ -366,7 +393,7 @@ namespace BalanzaW
                 conexion.AbrirConexion();
                 DB2DataAdapter da;
                 DataTable dt = new DataTable();
-                string sql = string.Format("SELECT ID_REGISTRO AS ID ,CONSEC,COD_IBES,BASCULA, PROCESO,PRESENTACION,FECHA_REG AS FECHA,HORA_REG AS HORA,PESO,DOC_REF,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE USER_REG='{0}'  ORDER BY ID DESC LIMIT {1};", Users, Items);
+                string sql = string.Format("SELECT ID_REGISTRO AS ID ,CONSEC,COD_IBES,BASCULA, PROCESO,PRESENTACION,FECHA_REG AS FECHA,HORA_REG AS HORA,PESO,DOC_REF,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE USER_REG='{0}' AND ANULADO='0' AND REG_TABLE IS NULL  ORDER BY ID DESC,CONSEC DESC LIMIT {1};", Users, Items);
                 conexion._comando = new DB2Command(sql, conexion._conexion);
                 
                 da = new DB2DataAdapter(conexion._comando);
@@ -438,11 +465,13 @@ namespace BalanzaW
                         cmbBascula.Enabled = false;
                         Btnconectar.BackColor = Color.Red;
                         serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1DataReceived);
+                        basculaConect = true;
 
                     }
                     else
                     {
                         MessageBox.Show("CONEXION FALLIDA!", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        basculaConect = false;
                     }
                 }
                 catch (Exception ex)
@@ -457,6 +486,7 @@ namespace BalanzaW
                 Btnconectar.BackColor = Color.FromArgb(0, 0, 192); 
                 cmbPort.Enabled = true;
                 cmbBascula.Enabled = true;
+                basculaConect = false;
                 serialPort1.Close();
             }
 
@@ -510,53 +540,101 @@ namespace BalanzaW
             }
 
         }
-       
-        
+
         private void BtnSave_Click(object sender, EventArgs e)
         {
 
-            if (nuevo == true)
+            if (basculaConect == false)
             {
-                id_registro = id_registro+1;
-                consec =  1;
+                MessageBox.Show("Debe Conectar la bascula", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Btnconectar.Focus();
+
+            }
+            else if (cmbCat.Text == "")
+            {
+                MessageBox.Show("Debe elegir la categoria", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbCat.Focus();
+            }
+            else if (cmbRefIbes.Text == "")
+            {
+                MessageBox.Show("Debe elegir la referencia", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbRefIbes.Focus();
+            }
+            else if (cmbProcess.Text == "")
+            {
+                MessageBox.Show("Debe elegir el proceso", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbProcess.Focus();
+            }
+            else if (cmbPresent.Text == "")
+            {
+                MessageBox.Show("Debe elegir la presentacion", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbPresent.Focus();
             }
             else
             {
-                id_registro = 0;
-                consec = consec+1;
+                if (nuevo == true)
+                {
+
+                    try
+                    {
+                        DB2DataReader verificar;
+                        string select = "SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS NEXT FROM PROD.GEW_BASCULA_DATOS;";
+
+                        conexion._comando = new DB2Command(select, conexion._conexion);
+                        conexion.AbrirConexion();
+                        verificar = conexion._comando.ExecuteReader();
+                        if (verificar.Read())
+                        {
+
+                            int reg = int.Parse(verificar.GetString(0));
+                            id_registro = reg;
+                            nuevo = false;
+
+                        }
+                        else
+                        {
+                            id_registro = 0;
+                            nuevo = true;
+                        }
+                        conexion.CerrarConexion();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Can not open connection ! " + ex.ToString(), "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                }
+
+
+                cod_ibes = cmbRefIbes.SelectedValue.ToString();
+                ref_ibes = cmbRefIbes.Text;
+                cat_ibes = cmbCat.SelectedValue.ToString();
+                id_bascula = int.Parse(cmbBascula.SelectedValue.ToString());
+                bascula = cmbBascula.Text;
+                id_proceso = int.Parse(cmbProcess.SelectedValue.ToString());
+                proceso = cmbProcess.Text;
+                presentacion = cmbPresent.Text;
+                doc_ref = txtDocRef.Text;
+
+                fecha_reg = "2021-02-01";
+                hora_reg = labelhora.Text;
+                user_reg = lblUsers.Text;
+
+
+                Items = CmbItems.Text;
+                DgvDat = DgvDatos;
+                frmModal Modal = new frmModal();
+                Modal.ShowDialog(this);
+
+                Modal.Dispose();
+
+
             }
-           
-
-            cod_ibes = cmbRefIbes.SelectedValue.ToString();
-            ref_ibes = cmbRefIbes.Text;
-            cat_ibes= cmbCat.SelectedValue.ToString();
-            id_bascula = int.Parse(cmbBascula.SelectedValue.ToString());
-            bascula = cmbBascula.Text;
-            id_proceso = int.Parse(cmbProcess.SelectedValue.ToString());
-            proceso = cmbProcess.Text;
-            presentacion = cmbPresent.Text;
-            doc_ref = txtDocRef.Text;
-
-            fecha_reg = "2021-02-01";
-            hora_reg = labelhora.Text;
-            user_reg = lblUsers.Text;
-
-            peso = lbl_peso.Text;
-
-            MessageBox.Show(peso);
-
-
-
-           Items = CmbItems.Text;
-            DgvDat = DgvDatos;            
-            frmModal Modal = new frmModal();
-            Modal.ShowDialog(this);
-
-            Modal.Dispose();
-
 
 
         }
+
 
         private void Reloj_Tick_1(object sender, EventArgs e)
         {
@@ -568,37 +646,16 @@ namespace BalanzaW
         private void DgvDatos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
            string ValorId =  DgvDatos.Rows[e.RowIndex].Cells[0].Value.ToString();
+           string ValorId2 =  DgvDatos.Rows[e.RowIndex].Cells[1].Value.ToString();            
+           
+
+            frmEditar frmEditModal = new frmEditar();
+            frmEditModal.GetIdReg(ValorId, ValorId2);
+
+            frmEditModal.ShowDialog(this);
             
-            DB2DataReader verificar;
-            
-            string select = string.Format("SELECT * FROM PROD.GEW_BASCULA_DATOS WHERE ID_REGISTRO= '{0}'", ValorId);
 
-            MessageBox.Show(select);
-            conexion._comando = new DB2Command(select, conexion._conexion);
-            conexion.AbrirConexion();
-            verificar = conexion._comando.ExecuteReader();
-            if (verificar.Read())
-            {
-                MessageBox.Show("REGITRO EXISTE");
-
-                //TxtIdR.Text = verificar.GetString(0);
-
-            }
-            else
-            {
-                //gBox4.Visible = false;
-                //TxtIdR.Text = "";
-               // TxtFechR.Text = "";
-                //TxtHoraR.Text = "";
-                //TxtTurnR.Text = "";
-                //TxtSeccR.Text = "";
-                //TxtPesoR.Text = "";
-                //TextOperR.Text = "";
-                //MessageBox.Show("El Registro no fue encontrado.", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            
-            conexion.CerrarConexion();
-
+            frmEditModal.Dispose();
             
         }
 
@@ -654,80 +711,19 @@ namespace BalanzaW
             }
         }
 
-        private void BtnDel_Click(object sender, EventArgs e)
-        {
-            DialogResult Result = MessageBox.Show("Desea Eliminar el Registro", "Gewicht", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (Result == DialogResult.Yes)
-            {
-
-                DB2DataReader sup;
-
-                //string Id = TxtIdR.Text.Trim();
-                //string Sec = TxtSeccR.Text.Trim();
-                string SQL = string.Format("DELETE FROM PROD.GEW_BASCULA_DATOS WHERE ID='{0}' AND SECCION='{1}';", 0, 0);
-
-                conexion._comando = new DB2Command(SQL, conexion._conexion);
-                conexion.AbrirConexion();
-                sup = conexion._comando.ExecuteReader();
-
-                if (sup.Read())
-                {
-                    MessageBox.Show("Ocurrio un error y no se pudo eliminar el registro.", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                     
-                }
-                else
-                {
-
-                    MessageBox.Show("Registro eliminado con exito.", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                   
-                }
-
-                //gBox4.Visible = false;
-               // TxtIdR.Text = "";
-                //TxtFechR.Text = "";
-                //TxtHoraR.Text = "";
-               // TxtTurnR.Text = "";
-                //TxtSeccR.Text = "";
-                //TxtPesoR.Text = "";
-               // TextOperR.Text = "";
-                conexion.CerrarConexion();
-                int Cant = int.Parse(CmbItems.Text);
-                CargaDatos(DgvDatos, Cant);                
-            }
-        }
-
         private void SerialPort1_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             MessageBox.Show(e.ToString());
         }
 
-        private void timerPeso_Tick(object sender, EventArgs e)
+        private void TimerPeso_Tick(object sender, EventArgs e)
         {
-            getRandoPeso();
+            GetRandoPeso();
         }
 
-        private void label8_Click(object sender, EventArgs e)
-        {
+              
 
-        }
-
-        private void gBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbBascula_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbBascula_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             DB2DataReader verificar;
@@ -790,21 +786,20 @@ namespace BalanzaW
 
         }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
+        private void BtnNuevo_Click(object sender, EventArgs e)
         {
             nuevo = true;
-            txtIdReg.Text = "";
-            txtConsc.Text = "";
             cmbCat.Text = "";
             cmbRefIbes.Text = "";
 
             id_registro = 0;
-            consec = 0;
             cod_ibes = "";
             ref_ibes = "";
             cat_ibes = "";
             cmbCat.Focus();
 
         }
+
+        
     }
 }

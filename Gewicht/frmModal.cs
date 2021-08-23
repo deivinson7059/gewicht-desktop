@@ -19,7 +19,7 @@ namespace BalanzaW
             {
                 timer1.Stop();
                 this.Close();                
-                frmPrincipal.SaveRegistros();
+                FrmPrincipal.SaveRegistros();
 
             }
 
@@ -29,6 +29,11 @@ namespace BalanzaW
         {
             timer1.Start();
             
+        }
+
+        private void lbl_total_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

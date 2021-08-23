@@ -1,6 +1,6 @@
 ﻿namespace BalanzaW
 {
-    partial class frmPrincipal
+    partial class FrmPrincipal
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.lblestado = new System.Windows.Forms.Label();
             this.Btnconectar = new System.Windows.Forms.Button();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
@@ -51,13 +51,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cmbRefIbes = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtConsc = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtIdReg = new System.Windows.Forms.TextBox();
             this.cmbProcess = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BtnSave = new System.Windows.Forms.Button();
+            this.txtPeso = new System.Windows.Forms.MaskedTextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.gBox2 = new System.Windows.Forms.GroupBox();
@@ -86,8 +83,7 @@
             this.CerrarLogin = new System.Windows.Forms.PictureBox();
             this.TextoLogin = new System.Windows.Forms.Label();
             this.gBox0 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lbl_peso = new System.Windows.Forms.Label();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.BtnSalir = new System.Windows.Forms.Button();
             this.Reloj = new System.Windows.Forms.Timer(this.components);
             this.labelfecha = new System.Windows.Forms.Label();
@@ -238,10 +234,6 @@
             this.gBox3.Controls.Add(this.label4);
             this.gBox3.Controls.Add(this.cmbRefIbes);
             this.gBox3.Controls.Add(this.label21);
-            this.gBox3.Controls.Add(this.label20);
-            this.gBox3.Controls.Add(this.txtConsc);
-            this.gBox3.Controls.Add(this.label15);
-            this.gBox3.Controls.Add(this.txtIdReg);
             this.gBox3.Controls.Add(this.cmbProcess);
             this.gBox3.Controls.Add(this.label2);
             this.gBox3.Controls.Add(this.BtnSave);
@@ -251,7 +243,6 @@
             this.gBox3.TabIndex = 17;
             this.gBox3.TabStop = false;
             this.gBox3.Text = "Datos de Producción";
-            this.gBox3.Enter += new System.EventHandler(this.gBox3_Enter);
             // 
             // cmbCat
             // 
@@ -260,16 +251,16 @@
             this.cmbCat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbCat.FormattingEnabled = true;
             this.cmbCat.ItemHeight = 13;
-            this.cmbCat.Location = new System.Drawing.Point(263, 32);
+            this.cmbCat.Location = new System.Drawing.Point(10, 32);
             this.cmbCat.Name = "cmbCat";
             this.cmbCat.Size = new System.Drawing.Size(187, 21);
             this.cmbCat.TabIndex = 51;
-            this.cmbCat.SelectedIndexChanged += new System.EventHandler(this.cmbCat_SelectedIndexChanged);
+            this.cmbCat.SelectedIndexChanged += new System.EventHandler(this.CmbCat_SelectedIndexChanged);
             // 
             // label23
             // 
             this.label23.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(259, 15);
+            this.label23.Location = new System.Drawing.Point(6, 15);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(100, 23);
             this.label23.TabIndex = 50;
@@ -279,15 +270,15 @@
             // 
             this.btnNuevo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnNuevo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnNuevo.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevo.ForeColor = System.Drawing.Color.White;
-            this.btnNuevo.Location = new System.Drawing.Point(733, 33);
+            this.btnNuevo.Location = new System.Drawing.Point(637, 16);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(50, 20);
+            this.btnNuevo.Size = new System.Drawing.Size(137, 41);
             this.btnNuevo.TabIndex = 0;
-            this.btnNuevo.Text = "NUEVA";
+            this.btnNuevo.Text = "NUEVA REFERENCIA";
             this.btnNuevo.UseVisualStyleBackColor = false;
-            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
+            this.btnNuevo.Click += new System.EventHandler(this.BtnNuevo_Click);
             // 
             // label22
             // 
@@ -334,55 +325,19 @@
             this.cmbRefIbes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbRefIbes.FormattingEnabled = true;
             this.cmbRefIbes.ItemHeight = 13;
-            this.cmbRefIbes.Location = new System.Drawing.Point(457, 33);
+            this.cmbRefIbes.Location = new System.Drawing.Point(211, 32);
             this.cmbRefIbes.Name = "cmbRefIbes";
-            this.cmbRefIbes.Size = new System.Drawing.Size(265, 21);
+            this.cmbRefIbes.Size = new System.Drawing.Size(404, 21);
             this.cmbRefIbes.TabIndex = 45;
             // 
             // label21
             // 
             this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(453, 16);
+            this.label21.Location = new System.Drawing.Point(207, 15);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(100, 23);
             this.label21.TabIndex = 44;
             this.label21.Text = "Referencia Ibes:";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(141, 16);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(86, 14);
-            this.label20.TabIndex = 43;
-            this.label20.Text = "Consecutivo:";
-            // 
-            // txtConsc
-            // 
-            this.txtConsc.Enabled = false;
-            this.txtConsc.Location = new System.Drawing.Point(143, 33);
-            this.txtConsc.Name = "txtConsc";
-            this.txtConsc.Size = new System.Drawing.Size(114, 20);
-            this.txtConsc.TabIndex = 42;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(7, 16);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(80, 14);
-            this.label15.TabIndex = 41;
-            this.label15.Text = "Id Registro:";
-            // 
-            // txtIdReg
-            // 
-            this.txtIdReg.Enabled = false;
-            this.txtIdReg.Location = new System.Drawing.Point(12, 33);
-            this.txtIdReg.Name = "txtIdReg";
-            this.txtIdReg.Size = new System.Drawing.Size(114, 20);
-            this.txtIdReg.TabIndex = 33;
             // 
             // cmbProcess
             // 
@@ -417,6 +372,21 @@
             this.BtnSave.Text = "CAPTURAR PESO";
             this.BtnSave.UseVisualStyleBackColor = false;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
+            // txtPeso
+            // 
+            this.txtPeso.BackColor = System.Drawing.Color.Black;
+            this.txtPeso.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPeso.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
+            this.txtPeso.Font = new System.Drawing.Font("Elephant", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPeso.ForeColor = System.Drawing.Color.White;
+            this.txtPeso.Location = new System.Drawing.Point(6, 16);
+            this.txtPeso.Name = "txtPeso";
+            this.txtPeso.ReadOnly = true;
+            this.txtPeso.Size = new System.Drawing.Size(302, 78);
+            this.txtPeso.TabIndex = 52;
+            this.txtPeso.Text = "9999.99";
+            this.txtPeso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label14
             // 
@@ -461,7 +431,7 @@
             this.gBox2.Controls.Add(this.cmbPort);
             this.gBox2.Controls.Add(this.label3);
             this.gBox2.Controls.Add(this.Btnconectar);
-            this.gBox2.Location = new System.Drawing.Point(12, 190);
+            this.gBox2.Location = new System.Drawing.Point(12, 168);
             this.gBox2.Name = "gBox2";
             this.gBox2.Size = new System.Drawing.Size(441, 345);
             this.gBox2.TabIndex = 18;
@@ -518,7 +488,6 @@
             this.txtInterval.Size = new System.Drawing.Size(190, 20);
             this.txtInterval.TabIndex = 58;
             this.txtInterval.Text = "1";
-            this.txtInterval.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label24
             // 
@@ -595,7 +564,7 @@
             this.cmbBascula.Name = "cmbBascula";
             this.cmbBascula.Size = new System.Drawing.Size(411, 21);
             this.cmbBascula.TabIndex = 19;
-            this.cmbBascula.SelectedIndexChanged += new System.EventHandler(this.cmbBascula_SelectedIndexChanged);
+            this.cmbBascula.SelectedIndexChanged += new System.EventHandler(this.CmbBascula_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -703,38 +672,28 @@
             // 
             // gBox0
             // 
-            this.gBox0.Controls.Add(this.label8);
-            this.gBox0.Controls.Add(this.lbl_peso);
+            this.gBox0.Controls.Add(this.maskedTextBox1);
+            this.gBox0.Controls.Add(this.txtPeso);
             this.gBox0.Location = new System.Drawing.Point(10, 47);
             this.gBox0.Name = "gBox0";
-            this.gBox0.Size = new System.Drawing.Size(443, 143);
+            this.gBox0.Size = new System.Drawing.Size(443, 114);
             this.gBox0.TabIndex = 17;
             this.gBox0.TabStop = false;
             // 
-            // label8
+            // maskedTextBox1
             // 
-            this.label8.BackColor = System.Drawing.Color.Black;
-            this.label8.Font = new System.Drawing.Font("Elephant", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(277, 16);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(158, 110);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "KG";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label8.Click += new System.EventHandler(this.label8_Click);
-            // 
-            // lbl_peso
-            // 
-            this.lbl_peso.BackColor = System.Drawing.Color.Black;
-            this.lbl_peso.Font = new System.Drawing.Font("Elephant", 54.74999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_peso.ForeColor = System.Drawing.Color.White;
-            this.lbl_peso.Location = new System.Drawing.Point(6, 16);
-            this.lbl_peso.Name = "lbl_peso";
-            this.lbl_peso.Size = new System.Drawing.Size(272, 110);
-            this.lbl_peso.TabIndex = 0;
-            this.lbl_peso.Text = "0.0";
-            this.lbl_peso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.maskedTextBox1.BackColor = System.Drawing.Color.Black;
+            this.maskedTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.maskedTextBox1.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
+            this.maskedTextBox1.Font = new System.Drawing.Font("Elephant", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
+            this.maskedTextBox1.Location = new System.Drawing.Point(306, 16);
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.ReadOnly = true;
+            this.maskedTextBox1.Size = new System.Drawing.Size(126, 78);
+            this.maskedTextBox1.TabIndex = 54;
+            this.maskedTextBox1.Text = "KG";
+            this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // BtnSalir
             // 
@@ -782,7 +741,7 @@
             // 
             this.timerPeso.Enabled = true;
             this.timerPeso.Interval = 2000;
-            this.timerPeso.Tick += new System.EventHandler(this.timerPeso_Tick);
+            this.timerPeso.Tick += new System.EventHandler(this.TimerPeso_Tick);
             // 
             // lblUsers
             // 
@@ -808,7 +767,7 @@
             this.label26.TabIndex = 28;
             this.label26.Text = "Hora:";
             // 
-            // frmPrincipal
+            // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -832,7 +791,7 @@
             this.Controls.Add(this.label6);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmPrincipal";
+            this.Name = "FrmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gewicht";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -846,6 +805,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MinimizarLogin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CerrarLogin)).EndInit();
             this.gBox0.ResumeLayout(false);
+            this.gBox0.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -877,11 +837,9 @@
         private System.Windows.Forms.Label labelfecha;
         private System.Windows.Forms.Label label17;
         public System.Windows.Forms.Label labelhora;
-        public System.Windows.Forms.Label lbl_peso;
         public System.Windows.Forms.DataGridView DgvDatos;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Timer timerPeso;
-        public System.Windows.Forms.Label label8;
         public System.Windows.Forms.ComboBox cmbBascula;
         public System.Windows.Forms.ComboBox cmbProcess;
         private System.Windows.Forms.Label label22;
@@ -890,10 +848,6 @@
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.ComboBox cmbRefIbes;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
-        public System.Windows.Forms.TextBox txtConsc;
-        private System.Windows.Forms.Label label15;
-        public System.Windows.Forms.TextBox txtIdReg;
         public System.Windows.Forms.Label lblUsers;
         internal System.Windows.Forms.Button btnNuevo;
         public System.Windows.Forms.ComboBox cmbCat;
@@ -915,6 +869,8 @@
         public System.Windows.Forms.TextBox txtBitCaract;
         public System.Windows.Forms.TextBox txtParid;
         public System.Windows.Forms.TextBox txtBaudios;
+        private System.Windows.Forms.MaskedTextBox txtPeso;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }
 
