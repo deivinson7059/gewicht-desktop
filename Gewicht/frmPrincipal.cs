@@ -12,6 +12,7 @@ namespace BalanzaW
     {
         readonly Conexion conexion = new Conexion();
 
+
         public static int id_registro = 0;
         public static bool nuevo = true;
         public static bool basculaConect = false;
@@ -28,9 +29,11 @@ namespace BalanzaW
         public static string notas = "";
         public static string user_reg = "";
         public static string fecha_reg = "";
+        public static string data_recibida = "0.0";
         
         public static string hora_reg = "";
         public static int anulado = 0;
+        public static int cant_atado = 0;
         public static Double peso = 0.0;
 
         public static string valtest = "";
@@ -51,8 +54,8 @@ namespace BalanzaW
         public static void SaveRegistros()
         {
 
-            string nValor = peso.ToString();
-            nValor = nValor.Replace(",", ".");
+            string nValor = data_recibida;
+            //nValor = nValor.Replace(",", ".");
 
 
 
@@ -62,11 +65,11 @@ namespace BalanzaW
             string sql;
 
             if (nuevo == true) {
-                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS), 1, '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0);";
+                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO,N_ATADO) VALUES ((SELECT COALESCE(MAX(ID_REGISTRO),0)+1 AS ID FROM PROD.GEW_BASCULA_DATOS), 1, '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0,'" + cant_atado + "');";
             }
             else 
             {              
-                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO) VALUES ('" + id_registro + "',(SELECT COALESCE(MAX(CONSEC),0)+1 AS CONSEC FROM PROD.GEW_BASCULA_DATOS WHERE ID_REGISTRO='" + id_registro + "' ), '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0);";
+                sql = "INSERT INTO PROD.GEW_BASCULA_DATOS (ID_REGISTRO, CONSEC, COD_IBES, REF_IBES, CAT_IBES, ID_BASCULA, BASCULA, ID_PROCESO, PROCESO, PRESENTACION, FECHA_REG, HORA_REG, PESO, DOC_REF, USER_REG, ANULADO,N_ATADO) VALUES ('" + id_registro + "',(SELECT COALESCE(MAX(CONSEC),0)+1 AS CONSEC FROM PROD.GEW_BASCULA_DATOS WHERE ID_REGISTRO='" + id_registro + "' ), '" + cod_ibes + "', '" + ref_ibes + "', '" + cat_ibes + "','" + id_bascula + "' , '" + bascula + "','" + id_proceso + "' , '" + proceso + "', '" + presentacion + "',CURRENT DATE , '" + hora_reg + "','" + nValor + "' , '" + doc_ref + "', '" + user_reg + "',0,'" + cant_atado + "');";
             }
 
 
@@ -93,47 +96,137 @@ namespace BalanzaW
         }
 
 
+        char anterior;
+        string dato = "";
         private void SerialPort1DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
 
         {
 
-            SerialPort sp = (SerialPort)sender;
-            string sred = sp.ReadExisting();
+            /* SerialPort sp = (SerialPort)sender;
+             string sred = sp.ReadExisting();*/
 
-            MessageBox.Show(sred);
-            txtPeso.Text = sred;
+            //s//tring dato_reciv = (string)serialPort1.ReadLine();
+            //txtPeso.Text = dato_reciv.ToString();
+
+            //MessageBox.Show(dato_reciv);
+            //txtPeso.Text = sred.ToString();
+            try
+            {
+
+                char dato_reciv = (char)serialPort1.ReadChar();
+                //txtPeso.Text = dato_reciv.ToString();
+                //char t = ' ';
+                //string ra = "";
+
+                //char dato_reciv = (char)e.
+
+                dato += dato_reciv;
+
+                /*if (dato_reciv == '\r')
+                {
+                    Console.WriteLine("<CR>");
+                }
+                else if (dato_reciv == '\n')
+                {
+                    Console.WriteLine("<LF>");
+                    goDato(dato);
+                    dato = "";
+                }
+                else
+                {
+                    //Console.WriteLine(dato_reciv);
+                    
+                }
+                */
+               // Console.WriteLine(dato);
+
+                if (dato_reciv == '\r')
+                {
+                    //Console.WriteLine(dato);
+                    goDato(dato);
+                   // Console.WriteLine("Fin del dato");
+                    dato = "";
+
+                }
+                else
+                {
+                    anterior = dato_reciv;
+
+                }
+
+               
+
+                //txtPeso.Text = ra;
+
+                //string txtrecibe = "";
+                //txtrecibe = dato_reciv.ToString();
 
 
-            /* char dato_reciv = (char)serialPort1.ReadChar();
-             lbl_peso.Text = dato_reciv.ToString();
-             //char t = ' ';
-             string ra = "";
-             MessageBox.Show(serialPort1.ReadExisting());
-
-             if (dato_reciv == (char)(2))
-             {
-                 dato_reciv = (char)serialPort1.ReadChar();
-
-                 while (true)
-                 {
-                     char t = (char)serialPort1.ReadChar();
-                     ra += t;
-                     if (t == ' ')
-                     {
-                         break;
-                     }
-                 }
-
-             }
-
-             lbl_peso.Text = ra;
-             Console.WriteLine(ra);
-            string txtrecibe = "";
-            txtrecibe = dato_reciv;*/
+            }
+            catch(TimeoutException ex)
+            {
+                Console.WriteLine(ex.Message);
+                //dato = "";
+            }
 
         }
 
-        private void Buscapuerto()
+        private void goDato(String valor)
+        {
+
+            valor= valor.Replace("N", "");
+            valor= valor.Replace("1G", "");
+            valor= valor.Replace("1GM", "");
+            valor= valor.Replace("KG G", "");
+            valor= valor.Replace("CZ", "");
+            valor= valor.Replace("G", "");
+            valor= valor.Replace("MO", "");
+            valor = valor.Replace("kg", "");
+            valor = valor.Replace("g", "");
+            valor = valor.Replace("gr", "");
+            valor= valor.Trim();
+            //Console.WriteLine("valor");
+            Console.WriteLine(valor);
+
+         
+
+
+            Invoke(new MethodInvoker(() =>
+            {
+
+                try
+                {
+                    if (!Double.IsNaN(Double.Parse(valor.Trim())))
+                    {
+                        data_recibida = valor;
+                        if (txtAutomatic.Text=="ON")
+                        {
+                            saveRecord();
+                        }
+                    }
+                    else
+                    {
+                        data_recibida = "0.0";
+                    }
+
+
+                    txtPeso.Text = data_recibida;
+                }
+                catch (Exception)
+                {
+
+                    data_recibida = "0.0";
+                    txtPeso.Text = data_recibida;
+                }
+
+            }));
+
+
+          
+
+        }
+
+            private void Buscapuerto()
         {
             string[] ports = SerialPort.GetPortNames();
             try
@@ -393,7 +486,7 @@ namespace BalanzaW
                 conexion.AbrirConexion();
                 DB2DataAdapter da;
                 DataTable dt = new DataTable();
-                string sql = string.Format("SELECT ID_REGISTRO AS ID ,CONSEC,COD_IBES,BASCULA, PROCESO,PRESENTACION,FECHA_REG AS FECHA,HORA_REG AS HORA,PESO,DOC_REF,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE USER_REG='{0}' AND ANULADO='0' AND REG_TABLE IS NULL  ORDER BY ID DESC,CONSEC DESC LIMIT {1};", Users, Items);
+                string sql = string.Format("SELECT ID_REGISTRO AS ID ,CONSEC,COD_IBES,BASCULA, PROCESO,PRESENTACION,FECHA_REG AS FECHA,HORA_REG AS HORA,PESO,N_ATADO,DOC_REF,USER_REG FROM PROD.GEW_BASCULA_DATOS WHERE USER_REG='{0}' AND ANULADO='0' AND REG_TABLE IS NULL  ORDER BY ID DESC,CONSEC DESC LIMIT {1};", Users, Items);
                 conexion._comando = new DB2Command(sql, conexion._conexion);
                 
                 da = new DB2DataAdapter(conexion._comando);
@@ -402,7 +495,7 @@ namespace BalanzaW
                 dgv.DataSource = dt;               
 
 
-                string[] titulos = new string[] { "No. REG", "CONSEC", "COD IBES", "BASCULA", "PROCESO", "PRESENTACION", "FECHA", "HORA", "PESO", "DOC_REF",  "USUARIO" };
+                string[] titulos = new string[] { "No. REG", "CONSEC", "COD IBES", "BASCULA", "PROCESO", "PRESENTACION", "FECHA", "HORA", "PESO","CANT_X_ATADO", "DOC_REF",  "USUARIO" };
                 dgv.Columns[0].HeaderText = titulos[0];
                 dgv.Columns[1].HeaderText = titulos[1];
                 dgv.Columns[2].HeaderText = titulos[2];
@@ -414,6 +507,7 @@ namespace BalanzaW
                 dgv.Columns[8].HeaderText = titulos[8];
                 dgv.Columns[9].HeaderText = titulos[9];
                 dgv.Columns[10].HeaderText = titulos[10];
+                dgv.Columns[11].HeaderText = titulos[11];
                 //dgv.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dgv.Columns[0].ReadOnly = true;
                 dgv.Columns[1].ReadOnly = true;
@@ -426,6 +520,7 @@ namespace BalanzaW
                 dgv.Columns[8].ReadOnly = true;
                 dgv.Columns[9].ReadOnly = true;
                 dgv.Columns[10].ReadOnly = true;
+                dgv.Columns[11].ReadOnly = true;
 
                 conexion.CerrarConexion();
                 da.Dispose();
@@ -436,10 +531,10 @@ namespace BalanzaW
                 MessageBox.Show("No se pudo llenar el Datagridview: " + ex.ToString(), "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void Btnconectar_Click(object sender, EventArgs e)
-        {
 
-            if (Btnconectar.Text== "CONECTAR BASCULA")
+        private void conectarBascula()
+        {
+            if (Btnconectar.Text == "CONECTAR BASCULA")
             {
                 try
                 {
@@ -455,15 +550,17 @@ namespace BalanzaW
                     serialPort1.Open();
                     serialPort1.Write(txtComando.Text);
 
-                   
+
 
                     if (serialPort1.IsOpen)
                     {
-                        lblestado.Text = "CONECTADO";                        
+                        lblestado.Text = "CONECTADO";
                         Btnconectar.Text = "DESCONECTAR BASCULA";
                         cmbPort.Enabled = false;
                         cmbBascula.Enabled = false;
                         Btnconectar.BackColor = Color.Red;
+
+                        serialPort1.Write("P");
                         serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1DataReceived);
                         basculaConect = true;
 
@@ -483,7 +580,7 @@ namespace BalanzaW
             {
                 lblestado.Text = "DESCONECTADO";
                 Btnconectar.Text = "CONECTAR BASCULA";
-                Btnconectar.BackColor = Color.FromArgb(0, 0, 192); 
+                Btnconectar.BackColor = Color.FromArgb(0, 0, 192);
                 cmbPort.Enabled = true;
                 cmbBascula.Enabled = true;
                 basculaConect = false;
@@ -491,11 +588,26 @@ namespace BalanzaW
             }
 
 
-           
+
+
+        }
+        private void Btnconectar_Click(object sender, EventArgs e)
+        {
+            conectarBascula();
+        }
+        private void desconectarBascula()
+        {
+            lblestado.Text = "DESCONECTADO";
+            Btnconectar.Text = "CONECTAR BASCULA";
+            Btnconectar.BackColor = Color.FromArgb(0, 0, 192);
+            cmbPort.Enabled = true;
+            cmbBascula.Enabled = true;
+            basculaConect = false;
+            serialPort1.Close();
+
         }
 
-        
-        private void Btnenviar_Click(object sender, EventArgs e)
+            private void Btnenviar_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
@@ -541,9 +653,8 @@ namespace BalanzaW
 
         }
 
-        private void BtnSave_Click(object sender, EventArgs e)
+        private void saveRecord()
         {
-
             if (basculaConect == false)
             {
                 MessageBox.Show("Debe Conectar la bascula", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -569,6 +680,11 @@ namespace BalanzaW
             {
                 MessageBox.Show("Debe elegir la presentacion", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cmbPresent.Focus();
+            }
+            else if (txtCant.Text == "")
+            {
+                MessageBox.Show("Debe digitar el numero de valor", "Gewicht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCant.Focus();
             }
             else
             {
@@ -616,6 +732,8 @@ namespace BalanzaW
                 proceso = cmbProcess.Text;
                 presentacion = cmbPresent.Text;
                 doc_ref = txtDocRef.Text;
+                cant_atado = int.Parse(txtCant.Text);
+                data_recibida = txtPeso.Text;
 
                 fecha_reg = "2021-02-01";
                 hora_reg = labelhora.Text;
@@ -624,15 +742,20 @@ namespace BalanzaW
 
                 Items = CmbItems.Text;
                 DgvDat = DgvDatos;
-                frmModal Modal = new frmModal();
-                Modal.ShowDialog(this);
+                SaveRegistros();
+                //frmModal Modal = new frmModal();
+                //Modal.ShowDialog(this);
 
-                Modal.Dispose();
+                //Modal.Dispose();
 
 
             }
 
+        }
 
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            saveRecord();
         }
 
 
@@ -675,7 +798,7 @@ namespace BalanzaW
 
                 CrearTicket ticket = new CrearTicket();
                 //Ya podemos usar todos sus metodos
-                ticket.AbreCajon();//Para abrir el cajon de dinero.
+                //ticket.AbreCajon();//Para abrir el cajon de dinero.
 
                 //De aqui en adelante pueden formar su ticket a su gusto... Les muestro un ejemplo
 
@@ -752,6 +875,19 @@ namespace BalanzaW
                         txtSubcadena.Text = verificar.GetString(7);
                         txtComando.Text = verificar.GetString(8);
                         txtInterval.Text = verificar.GetString(9);
+                        txtAutomatic.Text = verificar.GetString(10);
+                        txtLabelText.Text = verificar.GetString(11);
+
+                        labelAtado.Text= verificar.GetString(11);
+
+                        if(labelAtado.Text== "Num.Mezcla:")
+                        {
+                            txtCant.Text = "1";
+                        }
+                        else
+                        {
+                            txtCant.Text = "";
+                        }
 
 
                         Btnconectar.Enabled = true;
@@ -800,6 +936,25 @@ namespace BalanzaW
 
         }
 
-        
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            DialogResult Result = MessageBox.Show("Desea Cambiar la Configuracion", "Gewicht", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            ConexionLocal conexionLocal = new ConexionLocal();
+            conexionLocal.AbrirConLocal();
+            if (Result == DialogResult.Yes)
+            {
+
+                desconectarBascula();
+                this.Hide();
+                FrmConfig frm = new FrmConfig();
+
+                frm.Show();
+            }
+        }
     }
 }

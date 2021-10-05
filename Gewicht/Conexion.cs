@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using IBM.Data.DB2;
 using System.Windows.Forms;
+using Gewicht;
+using System.Data.SqlClient;
 
 namespace BalanzaW
 {
@@ -12,9 +14,48 @@ namespace BalanzaW
     {
         public DB2Connection _conexion;
         public DB2Command _comando;
+
+        
+
+        public static string server="";
+        public static string port = "";
+        public static string database = "";
+        public static string uid = "";
+        public static string pwd = "";
         public Conexion()
         {
-            _conexion = new DB2Connection("Server=192.168.40.4:50000;Database=WLRDB091;UID=sistemas;PWD=willard1505");
+
+            ConexionLocal conexionLocal = new ConexionLocal();
+            SqlDataReader datos;
+
+            string select = string.Format("SELECT * FROM dbo.config WHERE Id=1");
+
+
+            conexionLocal._comandoLocal = new SqlCommand(select, conexionLocal._conexionLocal);
+            conexionLocal.AbrirConLocal();
+            datos = conexionLocal._comandoLocal.ExecuteReader();
+
+            if (datos.Read())
+            {
+
+                server = datos.GetString(1);
+                port = datos.GetString(2);
+                database = datos.GetString(3);
+                uid = datos.GetString(4);
+                pwd = datos.GetString(5);
+
+            }
+            else
+            {
+                server = "";
+                port = "";
+                database = "";
+                uid = "";
+                pwd = "";
+            }
+
+
+            _conexion = new DB2Connection("Server="+ server + ":"+ port + ";Database="+ database + ";UID="+ uid+";PWD="+ pwd+" ");
 
         }
 

@@ -42,6 +42,8 @@
             this.DgvDatos = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.gBox3 = new System.Windows.Forms.GroupBox();
+            this.labelAtado = new System.Windows.Forms.Label();
+            this.txtCant = new System.Windows.Forms.TextBox();
             this.cmbCat = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.btnNuevo = new System.Windows.Forms.Button();
@@ -58,6 +60,10 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.gBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtLabelText = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtAutomatic = new System.Windows.Forms.TextBox();
             this.txtBitPara = new System.Windows.Forms.TextBox();
             this.txtBitCaract = new System.Windows.Forms.TextBox();
             this.txtParid = new System.Windows.Forms.TextBox();
@@ -78,9 +84,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cmbPort = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.ImgWillard = new System.Windows.Forms.PictureBox();
-            this.MinimizarLogin = new System.Windows.Forms.PictureBox();
-            this.CerrarLogin = new System.Windows.Forms.PictureBox();
             this.TextoLogin = new System.Windows.Forms.Label();
             this.gBox0 = new System.Windows.Forms.GroupBox();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
@@ -91,21 +94,26 @@
             this.timerPeso = new System.Windows.Forms.Timer(this.components);
             this.lblUsers = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.MinimizarLogin = new System.Windows.Forms.PictureBox();
+            this.ImgWillard = new System.Windows.Forms.PictureBox();
+            this.CerrarLogin = new System.Windows.Forms.PictureBox();
             this.gBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDatos)).BeginInit();
             this.gBox3.SuspendLayout();
             this.gBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgWillard)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinimizarLogin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CerrarLogin)).BeginInit();
             this.gBox0.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinimizarLogin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgWillard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CerrarLogin)).BeginInit();
             this.SuspendLayout();
             // 
             // lblestado
             // 
             this.lblestado.AutoSize = true;
             this.lblestado.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblestado.Location = new System.Drawing.Point(315, 308);
+            this.lblestado.Location = new System.Drawing.Point(312, 351);
             this.lblestado.Name = "lblestado";
             this.lblestado.Size = new System.Drawing.Size(107, 16);
             this.lblestado.TabIndex = 13;
@@ -225,6 +233,8 @@
             // 
             // gBox3
             // 
+            this.gBox3.Controls.Add(this.labelAtado);
+            this.gBox3.Controls.Add(this.txtCant);
             this.gBox3.Controls.Add(this.cmbCat);
             this.gBox3.Controls.Add(this.label23);
             this.gBox3.Controls.Add(this.btnNuevo);
@@ -243,6 +253,24 @@
             this.gBox3.TabIndex = 17;
             this.gBox3.TabStop = false;
             this.gBox3.Text = "Datos de Producción";
+            // 
+            // labelAtado
+            // 
+            this.labelAtado.AutoSize = true;
+            this.labelAtado.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAtado.Location = new System.Drawing.Point(679, 65);
+            this.labelAtado.Name = "labelAtado";
+            this.labelAtado.Size = new System.Drawing.Size(94, 14);
+            this.labelAtado.TabIndex = 53;
+            this.labelAtado.Text = "Cant X Atado:";
+            this.labelAtado.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // txtCant
+            // 
+            this.txtCant.Location = new System.Drawing.Point(680, 80);
+            this.txtCant.Name = "txtCant";
+            this.txtCant.Size = new System.Drawing.Size(97, 20);
+            this.txtCant.TabIndex = 52;
             // 
             // cmbCat
             // 
@@ -284,7 +312,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(635, 63);
+            this.label22.Location = new System.Drawing.Point(521, 65);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(107, 14);
             this.label22.TabIndex = 49;
@@ -292,7 +320,7 @@
             // 
             // txtDocRef
             // 
-            this.txtDocRef.Location = new System.Drawing.Point(637, 80);
+            this.txtDocRef.Location = new System.Drawing.Point(524, 82);
             this.txtDocRef.Name = "txtDocRef";
             this.txtDocRef.Size = new System.Drawing.Size(140, 20);
             this.txtDocRef.TabIndex = 48;
@@ -304,15 +332,15 @@
             this.cmbPresent.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbPresent.FormattingEnabled = true;
             this.cmbPresent.ItemHeight = 13;
-            this.cmbPresent.Location = new System.Drawing.Point(390, 79);
+            this.cmbPresent.Location = new System.Drawing.Point(311, 83);
             this.cmbPresent.Name = "cmbPresent";
-            this.cmbPresent.Size = new System.Drawing.Size(225, 21);
+            this.cmbPresent.Size = new System.Drawing.Size(198, 21);
             this.cmbPresent.TabIndex = 47;
             // 
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(386, 62);
+            this.label4.Location = new System.Drawing.Point(308, 64);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 46;
@@ -348,13 +376,13 @@
             this.cmbProcess.ItemHeight = 13;
             this.cmbProcess.Location = new System.Drawing.Point(9, 83);
             this.cmbProcess.Name = "cmbProcess";
-            this.cmbProcess.Size = new System.Drawing.Size(371, 21);
+            this.cmbProcess.Size = new System.Drawing.Size(287, 21);
             this.cmbProcess.TabIndex = 26;
             // 
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 62);
+            this.label2.Location = new System.Drawing.Point(6, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 20;
@@ -408,6 +436,10 @@
             // 
             // gBox2
             // 
+            this.gBox2.Controls.Add(this.label8);
+            this.gBox2.Controls.Add(this.txtLabelText);
+            this.gBox2.Controls.Add(this.label13);
+            this.gBox2.Controls.Add(this.txtAutomatic);
             this.gBox2.Controls.Add(this.txtBitPara);
             this.gBox2.Controls.Add(this.txtBitCaract);
             this.gBox2.Controls.Add(this.txtParid);
@@ -433,10 +465,46 @@
             this.gBox2.Controls.Add(this.Btnconectar);
             this.gBox2.Location = new System.Drawing.Point(12, 168);
             this.gBox2.Name = "gBox2";
-            this.gBox2.Size = new System.Drawing.Size(441, 345);
+            this.gBox2.Size = new System.Drawing.Size(441, 367);
             this.gBox2.TabIndex = 18;
             this.gBox2.TabStop = false;
             this.gBox2.Text = "Datos del Equipo";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(231, 307);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(66, 14);
+            this.label8.TabIndex = 67;
+            this.label8.Text = "LabelText";
+            // 
+            // txtLabelText
+            // 
+            this.txtLabelText.Enabled = false;
+            this.txtLabelText.Location = new System.Drawing.Point(229, 323);
+            this.txtLabelText.Name = "txtLabelText";
+            this.txtLabelText.Size = new System.Drawing.Size(190, 20);
+            this.txtLabelText.TabIndex = 66;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(8, 308);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(71, 14);
+            this.label13.TabIndex = 65;
+            this.label13.Text = "Automatic";
+            // 
+            // txtAutomatic
+            // 
+            this.txtAutomatic.Enabled = false;
+            this.txtAutomatic.Location = new System.Drawing.Point(10, 324);
+            this.txtAutomatic.Name = "txtAutomatic";
+            this.txtAutomatic.Size = new System.Drawing.Size(189, 20);
+            this.txtAutomatic.TabIndex = 64;
             // 
             // txtBitPara
             // 
@@ -597,7 +665,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(255, 308);
+            this.label5.Location = new System.Drawing.Point(252, 351);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 16);
             this.label5.TabIndex = 20;
@@ -622,41 +690,6 @@
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 17;
             this.label3.Text = "Puerto:";
-            // 
-            // ImgWillard
-            // 
-            this.ImgWillard.BackColor = System.Drawing.Color.Transparent;
-            this.ImgWillard.Image = global::Gewicht.Properties.Resources.logoW2;
-            this.ImgWillard.Location = new System.Drawing.Point(918, 50);
-            this.ImgWillard.Name = "ImgWillard";
-            this.ImgWillard.Size = new System.Drawing.Size(327, 56);
-            this.ImgWillard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ImgWillard.TabIndex = 21;
-            this.ImgWillard.TabStop = false;
-            // 
-            // MinimizarLogin
-            // 
-            this.MinimizarLogin.BackColor = System.Drawing.Color.Blue;
-            this.MinimizarLogin.Image = ((System.Drawing.Image)(resources.GetObject("MinimizarLogin.Image")));
-            this.MinimizarLogin.Location = new System.Drawing.Point(1177, 12);
-            this.MinimizarLogin.Name = "MinimizarLogin";
-            this.MinimizarLogin.Size = new System.Drawing.Size(26, 19);
-            this.MinimizarLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.MinimizarLogin.TabIndex = 22;
-            this.MinimizarLogin.TabStop = false;
-            this.MinimizarLogin.Click += new System.EventHandler(this.MinimizarLogin_Click);
-            // 
-            // CerrarLogin
-            // 
-            this.CerrarLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.CerrarLogin.Image = ((System.Drawing.Image)(resources.GetObject("CerrarLogin.Image")));
-            this.CerrarLogin.Location = new System.Drawing.Point(1209, 12);
-            this.CerrarLogin.Name = "CerrarLogin";
-            this.CerrarLogin.Size = new System.Drawing.Size(26, 19);
-            this.CerrarLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.CerrarLogin.TabIndex = 21;
-            this.CerrarLogin.TabStop = false;
-            this.CerrarLogin.Click += new System.EventHandler(this.CerrarLogin_Click);
             // 
             // TextoLogin
             // 
@@ -767,6 +800,53 @@
             this.label26.TabIndex = 28;
             this.label26.Text = "Hora:";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::Gewicht.Properties.Resources.config;
+            this.pictureBox1.Location = new System.Drawing.Point(16, 541);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(42, 38);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 29;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // MinimizarLogin
+            // 
+            this.MinimizarLogin.BackColor = System.Drawing.Color.Blue;
+            this.MinimizarLogin.Image = ((System.Drawing.Image)(resources.GetObject("MinimizarLogin.Image")));
+            this.MinimizarLogin.Location = new System.Drawing.Point(1177, 12);
+            this.MinimizarLogin.Name = "MinimizarLogin";
+            this.MinimizarLogin.Size = new System.Drawing.Size(26, 19);
+            this.MinimizarLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.MinimizarLogin.TabIndex = 22;
+            this.MinimizarLogin.TabStop = false;
+            this.MinimizarLogin.Click += new System.EventHandler(this.MinimizarLogin_Click);
+            // 
+            // ImgWillard
+            // 
+            this.ImgWillard.BackColor = System.Drawing.Color.Transparent;
+            this.ImgWillard.Image = global::Gewicht.Properties.Resources.logoW2;
+            this.ImgWillard.Location = new System.Drawing.Point(918, 50);
+            this.ImgWillard.Name = "ImgWillard";
+            this.ImgWillard.Size = new System.Drawing.Size(327, 56);
+            this.ImgWillard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ImgWillard.TabIndex = 21;
+            this.ImgWillard.TabStop = false;
+            // 
+            // CerrarLogin
+            // 
+            this.CerrarLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.CerrarLogin.Image = ((System.Drawing.Image)(resources.GetObject("CerrarLogin.Image")));
+            this.CerrarLogin.Location = new System.Drawing.Point(1209, 12);
+            this.CerrarLogin.Name = "CerrarLogin";
+            this.CerrarLogin.Size = new System.Drawing.Size(26, 19);
+            this.CerrarLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.CerrarLogin.TabIndex = 21;
+            this.CerrarLogin.TabStop = false;
+            this.CerrarLogin.Click += new System.EventHandler(this.CerrarLogin_Click);
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -775,6 +855,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1262, 590);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.lblUsers);
             this.Controls.Add(this.labelhora);
@@ -801,11 +882,12 @@
             this.gBox3.PerformLayout();
             this.gBox2.ResumeLayout(false);
             this.gBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgWillard)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinimizarLogin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CerrarLogin)).EndInit();
             this.gBox0.ResumeLayout(false);
             this.gBox0.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinimizarLogin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgWillard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CerrarLogin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -869,8 +951,15 @@
         public System.Windows.Forms.TextBox txtBitCaract;
         public System.Windows.Forms.TextBox txtParid;
         public System.Windows.Forms.TextBox txtBaudios;
-        private System.Windows.Forms.MaskedTextBox txtPeso;
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.Label labelAtado;
+        public System.Windows.Forms.TextBox txtCant;
+        public System.Windows.Forms.MaskedTextBox txtPeso;
+        private System.Windows.Forms.Label label8;
+        public System.Windows.Forms.TextBox txtLabelText;
+        private System.Windows.Forms.Label label13;
+        public System.Windows.Forms.TextBox txtAutomatic;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
