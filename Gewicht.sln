@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gewicht", "Gewicht\Gewicht.csproj", "{60F59DFB-1133-441A-A3EF-8925A4070044}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupGewicht", "SetupGewich\SetupGewich.vdproj", "{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -38,16 +36,6 @@ Global
 		{60F59DFB-1133-441A-A3EF-8925A4070044}.Release|x64.Build.0 = Release|x64
 		{60F59DFB-1133-441A-A3EF-8925A4070044}.Release|x86.ActiveCfg = Release|x86
 		{60F59DFB-1133-441A-A3EF-8925A4070044}.Release|x86.Build.0 = Release|x86
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.All|Any CPU.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.All|x64.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.All|x86.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Debug|Any CPU.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Debug|x64.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Debug|x86.ActiveCfg = Debug
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Release|Any CPU.ActiveCfg = Release
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Release|x64.ActiveCfg = Release
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Release|x86.ActiveCfg = Release
-		{84AA8A7F-17D3-4B79-AA26-623F0DA91F66}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
